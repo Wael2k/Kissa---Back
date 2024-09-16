@@ -39,7 +39,7 @@ public class SecurityConfig {
     @Lazy
     private AuthService authService;
     private static final String[] WHITE_LIST_URL = {
-            "/api/auth/v1/register",
+            "/api/auth/v1/**",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
