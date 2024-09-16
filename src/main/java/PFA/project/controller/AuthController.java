@@ -5,16 +5,11 @@ import PFA.project.dto.authDto.UserDetailsDto;
 import PFA.project.dto.authDto.UserRegistrationDto;
 import PFA.project.enums.UserValidityStatusEnum;
 import PFA.project.service.AuthService;
-import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("api/auth/")

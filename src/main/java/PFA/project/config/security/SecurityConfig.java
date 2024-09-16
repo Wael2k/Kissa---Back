@@ -38,7 +38,8 @@ public class SecurityConfig {
     @Autowired
     @Lazy
     private AuthService authService;
-    private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
+    private static final String[] WHITE_LIST_URL = {
+            "/api/auth/v1/register",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
@@ -61,13 +62,13 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             .authorizeHttpRequests(req ->
                     req.requestMatchers(WHITE_LIST_URL)
                             .permitAll()
-//                            .requestMatchers("/api/v1/management/**").hasAnyRole(USER.name(),ADMIN.name(),SYSTEM.name())
+                            .requestMatchers("/api/v1/management/**").hasAnyRole(STUDENT.name(),TEACHER.name(),SYSTEM.name())
                             .anyRequest()
                             .authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-            .authenticationProvider(authenticationProvider)
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+            .authenticationProvider(authenticationProvider);
+//            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
 }
     @Bean
