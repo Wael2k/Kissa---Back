@@ -5,11 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum Permissions {
+
     PROFESSOR_READ("professor:read");
-
-
     @Getter
     private final String permission;
-
-
+    
 }

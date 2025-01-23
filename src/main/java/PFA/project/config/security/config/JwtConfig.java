@@ -11,10 +11,8 @@ import org.springframework.stereotype.Component;
 public class JwtConfig {
     @Value("${signingKey}")
     private String signingKey;
-
     @Value("${server.servlet.session.cookie.name}")
     private String cookieName;
-
     @Value("${access-key:access_id}")
     private String accessId;
     @Value("${role:role}")
@@ -23,7 +21,6 @@ public class JwtConfig {
     private String expiration;
     @Value("${type:typeRegister}")
     private String typeRegister;
-
     @Value("${loginLink}")
     private String loginLink;
 

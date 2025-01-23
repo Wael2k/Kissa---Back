@@ -1,0 +1,30 @@
+name: Pipe Line
+
+on:
+  push:
+    branches:
+      - ci/pipeline
+    paths:
+      - book-network/**
+      - docker/backend/**
+      - 'docker-compose.yml'
+      - .github/workflows/*-backend.yml
+
+jobs:
+  compile:
+    runs-on: self-hosted
+    name: Compile project
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17' # Specify the required Java version (e.g., 11, 17, etc.)
+          distribution: 'corretto' # Options: temurin, zulu, etc.
+      - name : Compile project
+        run: |
+          cd

@@ -16,7 +16,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 @Service
-public class EmailService {
+public class                                                                                            EmailService {
     @Autowired
     private Configuration configuration;
     @Autowired
