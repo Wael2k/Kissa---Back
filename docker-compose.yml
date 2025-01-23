@@ -1,6 +1,6 @@
 services:
   app:
-    image: 50995452/ppp:latest
+    image: your-spring-boot-app:latest
     build:
       context: .
       dockerfile: DockerFile
@@ -32,7 +32,7 @@ services:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
     ports:
-      - "5050:80"
+      - "5050:90"
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@example.com
       PGADMIN_DEFAULT_PASSWORD: pgadmin
