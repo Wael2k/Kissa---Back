@@ -1,6 +1,6 @@
 services:
   app:
-    image: your-spring-boot-app:latest
+    image: 50995452/ppp:latest
     build:
       context: .
       dockerfile: DockerFile
