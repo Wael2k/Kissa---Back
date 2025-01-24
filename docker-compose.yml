@@ -44,7 +44,7 @@ services:
     build:
       context: .
       dockerfile: DockerFileProxy
-    container_name: nginx
+    container_name: customProxy
     ports:
       - "80:80" # Expose port 80 to the host
     networks:
