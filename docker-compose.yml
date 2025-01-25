@@ -1,3 +1,4 @@
+version: "3.8"
 services:
   app:
     build:
@@ -27,6 +28,7 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
@@ -36,10 +38,11 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@example.com
       PGADMIN_DEFAULT_PASSWORD: pgadmin
     depends_on:
-        - db
+      - db
     networks:
-        - external
-        - internal
+      - external
+      - internal
+
   nginx:
     build:
       context: .
@@ -52,8 +55,28 @@ services:
     depends_on:
       - app
 
+  jenkins:
+    build:
+      context: .
+      dockerfile: DockerFileJenkins # Ensure this file exists
+    container_name: jenkins-docker
+    ports:
+      - "8081:8080" # Jenkins web interface
+      - "50000:50000" # Jenkins agent connections
+    volumes:
+      - jenkins_home:/var/jenkins_home # Persist Jenkins data
+      - /var/run/docker.sock:/var/run/docker.sock # Allow Jenkins to use the host's Docker engine
+    networks:
+      - internal
+    environment:
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false" # Optional: Skip setup wizard
+      JENKINS_USER: admin
+      JENKINS_PASS: admin
+
 volumes:
   postgres_data:
+  jenkins_home: # Persistent volume for Jenkins configuration and job data
+
 networks:
   internal:
   external:
