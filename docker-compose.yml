@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: DockerFile
+    image: 50995452/ppp:app
     ports:
       - "8080:8080"
     networks:
@@ -15,13 +16,45 @@ services:
     depends_on:
       - db
 
-  db:
-    image: postgres:latest
+  nginx:
+    build:
+      context: .
+      dockerfile: DockerFileProxy
+    image: 50995452/ppp:nginx
+    container_name: customProxy
+    ports:
+      - "80:80"
     networks:
       - internal
+    depends_on:
+      - app
+
+  jenkins:
+    build:
+      context: .
+      dockerfile: DockerFileJenkins
+    image: 50995452/ppp:jenkins
+    container_name: jenkins-docker
+    ports:
+      - "8081:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - internal
+    environment:
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+      JENKINS_USER: admin
+      JENKINS_PASS: admin
+
+  db:
+    image: postgres:latest
     container_name: postgres
     ports:
       - "5432:5432"
+    networks:
+      - internal
     environment:
       POSTGRES_DB: kissa
       POSTGRES_USER: postgres
@@ -43,39 +76,9 @@ services:
       - external
       - internal
 
-  nginx:
-    build:
-      context: .
-      dockerfile: DockerFileProxy
-    container_name: customProxy
-    ports:
-      - "80:80" # Expose port 80 to the host
-    networks:
-      - internal
-    depends_on:
-      - app
-
-  jenkins:
-    build:
-      context: .
-      dockerfile: DockerFileJenkins # Ensure this file exists
-    container_name: jenkins-docker
-    ports:
-      - "8081:8080" # Jenkins web interface
-      - "50000:50000" # Jenkins agent connections
-    volumes:
-      - jenkins_home:/var/jenkins_home # Persist Jenkins data
-      - /var/run/docker.sock:/var/run/docker.sock # Allow Jenkins to use the host's Docker engine
-    networks:
-      - internal
-    environment:
-      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false" # Optional: Skip setup wizard
-      JENKINS_USER: admin
-      JENKINS_PASS: admin
-
 volumes:
   postgres_data:
-  jenkins_home: # Persistent volume for Jenkins configuration and job data
+  jenkins_home:
 
 networks:
   internal:
