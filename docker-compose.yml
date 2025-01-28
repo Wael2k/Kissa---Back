@@ -39,12 +39,10 @@ services:
       PGADMIN_DEFAULT_PASSWORD: pgadmin
     depends_on:
       - db
-      - db
     networks:
       - external
       - internal
-      - external
-      - internal
+
 
   nginx:
     build:
@@ -71,6 +69,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock # Allow Jenkins to use the host's Docker engine
     networks:
       - internal
+      - external
     environment:
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false" # Optional: Skip setup wizard
       JENKINS_USER: admin
