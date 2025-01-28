@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: DockerFile
-    image: 50995452/ppp:app
+    image: app
     ports:
       - "8080:8080"
     networks:
@@ -33,7 +33,7 @@ services:
     build:
       context: .
       dockerfile: DockerFileJenkins
-    image: 50995452/ppp:jenkins
+    image: jenkins
     container_name: jenkins-docker
     ports:
       - "8081:8080"
